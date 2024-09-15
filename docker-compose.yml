@@ -1,0 +1,33 @@
+version: "3.9"
+networks:
+  finance:
+services:
+  postgres:
+    image: postgres:16.4
+    container_name: finance_postgres
+    environment:
+      POSTGRES_USER: finance
+      POSTGRES_PASSWORD: finance
+      POSTGRES_DB: finance
+    ports:
+      - 5433:5432
+    networks:
+      - finance
+  redis:
+    image: redis:7.4.0-alpine3.20
+    container_name: finance_redis
+    ports:
+      - 6380:6379
+    networks:
+      - finance
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: finance_pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: finance@finance.finance
+      PGADMIN_DEFAULT_PASSWORD: finance
+      PGADMIN_LISTEN_PORT: 80
+    ports:
+      - 8080:80
+    networks:
+      - finance
